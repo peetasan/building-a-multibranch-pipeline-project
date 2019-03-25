@@ -10,11 +10,17 @@ pipeline {
     }
     stages {
         stage('Build') {
+            when {
+                not { branch 'master' }
+            }
             steps {
                 sh 'npm install'
             }
         }
         stage('Test') {
+            when {
+                not { branch 'master' }
+            }
             steps {
                 sh './jenkins/scripts/test.sh'
             }
@@ -33,9 +39,7 @@ pipeline {
                 buildingTag()
             }
             steps {
-                sh './jenkins/scripts/deploy-for-production.sh'
                 input message: 'Would you like to deploy to production'
-                sh './jenkins/scripts/kill.sh'
             }
         }
     }
