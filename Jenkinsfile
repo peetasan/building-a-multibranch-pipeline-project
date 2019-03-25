@@ -30,7 +30,7 @@ pipeline {
         }
         stage('Deploy for production') {
             when {
-                tag '*'
+                buildingTag()
             }
             steps {
                 sh './jenkins/scripts/deploy-for-production.sh'
