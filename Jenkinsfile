@@ -10,18 +10,24 @@ pipeline {
     }
     stages {
         stage('Build') {
+            when {
+                not { buildingTag() }
+            }
             steps {
                 sh 'npm install'
             }
         }
         stage('Test') {
+            when {
+                not { buildingTag() }
+            }
             steps {
                 sh './jenkins/scripts/test.sh'
             }
         }
         stage('Deploy to Staging') {
             when {
-                branch 'master' 
+                allOf { branch 'master'; not { buildingTag() } }
             }
             steps {
                 sh './jenkins/scripts/deliver-for-development.sh'
