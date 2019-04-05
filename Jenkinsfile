@@ -36,7 +36,7 @@ pipeline {
         }
         stage('Deploy for production') {
             when {
-                buildingTag()
+                tag '*'
             }
             steps {
                 input message: 'Would you like to deploy to production'
